@@ -1,6 +1,9 @@
+import org.junit.Test;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  *
@@ -21,15 +24,12 @@ public class Tool {
             if (value.isFile()) {
                 filePaths.add(value.toString());
             }
-            else {
-                value.isDirectory();//todo
-            }
         }
         return filePaths;
     }
 
-    public static List<String> readFile(String path) throws IOException {
 
+    public static List<String> readLines(String path) throws IOException {
         File file = new File(path);
         assert file.exists();
         assert !file.isDirectory();
@@ -38,8 +38,7 @@ public class Tool {
         BufferedReader bufferedReader = new BufferedReader(read);
         String lineText = null;
         List<String> lines = new ArrayList<String>();
-        while ((lineText = bufferedReader.readLine()) != null)
-        {
+        while ((lineText = bufferedReader.readLine()) != null) {
             lines.add(lineText);
         }
         bufferedReader.close();
@@ -47,11 +46,17 @@ public class Tool {
         return lines;
     }
 
-    public static void main(String[] args) {
+
+
+    public static void main(String[] args) throws IOException {
 
         List<String> filePaths = Tool.listFiles("E:\\programmingAbility\\Java\\urls");
         for(String filepath:filePaths){
             System.out.println(filepath);
+            List<String> lines = readLines(filepath);
+            for(String line : lines){
+                System.out.println(line);
+            }
         }
     }
 }
