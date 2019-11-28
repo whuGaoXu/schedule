@@ -2,6 +2,7 @@ import org.junit.Test;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -46,7 +47,10 @@ public class Tool {
         return lines;
     }
 
-
+    public static long getCurTime(){
+        Calendar calendar = Calendar.getInstance();
+        return calendar.getTimeInMillis();
+    }
 
     public static void main(String[] args) throws IOException {
 

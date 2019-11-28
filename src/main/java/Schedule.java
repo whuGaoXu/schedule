@@ -16,31 +16,31 @@ import java.util.Queue;
 public class Schedule {
 
 
-    private int crawlAbility = 1000; // 每天的爬取能力，也就是24h的能够爬取多少数据
-    private double newProportion = 0.5; // 默认新的占比，
-    private double oldProportion = 0.5;// 旧的占比
+    private static int crawlAbility = 1000; // 每天的爬取能力，也就是24h的能够爬取多少数据
+    private static double newProportion = 0.5; // 默认新的占比，
+    private static double oldProportion = 0.5;// 旧的占比
 
-    public void init(int crawlAbility, double newProportion){
-        this.crawlAbility = crawlAbility;
-        this.newProportion = newProportion;
-        this.oldProportion = 1 - this.newProportion;
+    private static void init(int _crawlAbility, double _newProportion){
+        crawlAbility = _crawlAbility;
+        newProportion = _newProportion;
+        oldProportion = 1 - newProportion;
     }
 
 
-    public List<UrlOnceData> getNewUrls(List<UrlOnceData> urlsOnceData){
+    private static List<UrlOnceData> getNewUrls(List<UrlOnceData> urlsOnceData){
         List<UrlOnceData> newUrls = new ArrayList<UrlOnceData>();
         for(UrlOnceData tmp : urlsOnceData){
-            if(tmp.getId()==-1){
+            if(tmp.getId()==0){
                 newUrls.add(tmp);
             }
         }
         return newUrls;
     }
 
-    public List<UrlOnceData> getOldUrls(List<UrlOnceData> urlsOnceData){
+    private static List<UrlOnceData> getOldUrls(List<UrlOnceData> urlsOnceData){
         List<UrlOnceData> oldUrls = new ArrayList<UrlOnceData>();
         for(UrlOnceData tmp : urlsOnceData){
-            if(tmp.getId()!=-1){
+            if(tmp.getId()!=0){
                 oldUrls.add(tmp);
             }
         }
@@ -49,7 +49,7 @@ public class Schedule {
     }
 
 
-    public List<UrlOnceData> getWaitCrawlUrls(List<UrlOnceData> oldUrls, List<UrlOnceData> newUrls){
+    private static List<UrlOnceData> getWaitCrawlUrls(List<UrlOnceData> oldUrls, List<UrlOnceData> newUrls){
 
         List<UrlOnceData> waitCrawlUrls = new ArrayList<UrlOnceData>();
 
@@ -83,6 +83,13 @@ public class Schedule {
     }
 
 
+    public static List<UrlOnceData> select(List<UrlOnceData> urlsTotal){
+        init(1000, 0.5);
+        List<UrlOnceData> oldUrls = getOldUrls(urlsTotal);
+        List<UrlOnceData> newUrls = getNewUrls(urlsTotal);
+        List<UrlOnceData> waitCrawlUrls = getWaitCrawlUrls(oldUrls, newUrls);
+        return waitCrawlUrls;
+    }
 
 
 

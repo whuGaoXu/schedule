@@ -1,24 +1,40 @@
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-public class CrawlPlatform {
-    private WebDriver driver;
 
-    public void initDriver(){
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class CrawlPlatform {
+    private static WebDriver driver;
+
+    private static void initDriver(){
         System.getProperties().setProperty("webdriver.chrome.driver","G:\\programmingTools\\chromedriver.exe");
-        this.driver = new ChromeDriver();
+        driver = new ChromeDriver();
     }
 
-    public String getPageSource(String url) throws InterruptedException {
+    private static String getPageSource(String url) throws InterruptedException {
 
         driver.get(url);
-        String html = driver.getPageSource();
-        return html;
+        return driver.getPageSource();
     }
 
-    public void releaseDriver(){
-        this.driver.close();
-        this.driver.quit();
+    public static Map<String, String> getAllhtmls(List<UrlOnceData> waitCrawlUrls) throws InterruptedException {
+        initDriver();
+        Map<String, String> urlAndhtmls = new HashMap<String, String>();
+        for(UrlOnceData urlOnceData : waitCrawlUrls){
+            String url = urlOnceData.getUrl();
+            String html = getPageSource(url);
+            urlAndhtmls.put(url, html);
+        }
+        releaseDriver();
+        return urlAndhtmls;
+    }
+
+    private static void releaseDriver(){
+        driver.close();
+        driver.quit();
     }
 
     public void Fetch(String[] args){

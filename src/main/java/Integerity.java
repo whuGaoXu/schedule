@@ -12,16 +12,16 @@ import java.util.List;
 
 public class Integerity {
 
-    private final long ONEDAY = 86400000;
-    private final String urlsCollectionPath = "E:\\programmingAbility\\Java\\urls\\urlsCollection.txt";
-    private final String urlsHbasePath = "E:\\programmingAbility\\Java\\urls\\Hbase";
+    private static final long ONEDAY = 86400000;
+    private static final String urlsCollectionPath = "E:\\programmingAbility\\Java\\urls\\urlsCollection.txt";
+    private static final String urlsHbasePath = "E:\\programmingAbility\\Java\\urls\\Hbase";
 
-    private List<UrlOnceData> readUrlsCollection(String path) throws IOException {
+    private static List<UrlOnceData> readUrlsCollection(String path) throws IOException {
         List<UrlOnceData>  urlsCollectionDao= new ArrayList<UrlOnceData>();
         List<String> lines = Tool.readLines(path);
         for(String line:lines){
             UrlOnceData urlOnceData = new UrlOnceData();
-            urlOnceData.setId(-1);
+            urlOnceData.setId(0);
             urlOnceData.setUrl(line);
             urlOnceData.setRefreshCycle(1*ONEDAY);
             urlOnceData.setFetchTime(0);
@@ -30,7 +30,7 @@ public class Integerity {
         return urlsCollectionDao;
     }
 
-    private List<UrlOnceData> readHbase(String path){
+    private static List<UrlOnceData> readHbase(String path){
         List<UrlOnceData>  urlsHbaseDao= new ArrayList<UrlOnceData>();
         List<String> paths = Tool.listFiles(path);
         if(paths.isEmpty() || paths==null){
@@ -45,7 +45,7 @@ public class Integerity {
     /**
      * 求两者的并集，同时存在的以库里面的为主
      * */
-    public List<UrlOnceData> union() throws IOException {
+    public static List<UrlOnceData> union() throws IOException {
         List<UrlOnceData>  urlsUnionDao= new ArrayList<UrlOnceData>();
         List<UrlOnceData>  urlsCollectionDao = readUrlsCollection(urlsCollectionPath);
         List<UrlOnceData>  urlsHbaseDao = readHbase(urlsHbasePath);
