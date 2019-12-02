@@ -64,13 +64,26 @@ public class Integerity {
         List<UrlOnceData>  urlsHbaseDao = readHbase(urlsHbasePath);
         if(urlsHbaseDao.isEmpty() || urlsHbaseDao==null){
             return urlsCollectionDao;
-        }else {
-            for(UrlOnceData urlOnceData: urlsHbaseDao){
-                urlsUnionDao.add(urlOnceData);
-            }
-            //todo
-            // 将两者取并集
         }
+
+        for(UrlOnceData urlOnceData: urlsHbaseDao){
+            urlsUnionDao.add(urlOnceData);
+        }
+        for(UrlOnceData urlOnceDataCollection :urlsCollectionDao){
+            boolean exist = false;
+            for(UrlOnceData urlOnceDataHbase : urlsHbaseDao){
+                if(urlOnceDataCollection.getUrl().equals(urlOnceDataHbase.getUrl())){
+                    System.out.println(urlOnceDataCollection.getUrl());
+                    exist = true;
+                    break;
+                }
+            }
+            if(!exist){
+                System.out.println("test");
+                urlsUnionDao.add(urlOnceDataCollection);
+            }
+        }
+
         return urlsUnionDao;
 
     }
