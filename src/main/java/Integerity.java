@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,9 +22,16 @@ public class Integerity {
         List<UrlOnceData>  urlsCollectionDao= new ArrayList<UrlOnceData>();
         List<String> lines = Tool.readLines(path);
         for(String line:lines){
+            if(line.isEmpty()){
+                continue;
+            }
             UrlOnceData urlOnceData = new UrlOnceData();
             urlOnceData.setId(0);
-            urlOnceData.setUrl(line);
+            if(line.contains("http://")){
+                urlOnceData.setUrl(line);
+            }else{
+                urlOnceData.setUrl("http://" + line);
+            }
             urlOnceData.setRefreshCycle(1*ONEDAY);
             urlOnceData.setFetchTime(0);
             urlsCollectionDao.add(urlOnceData);
@@ -30,14 +39,18 @@ public class Integerity {
         return urlsCollectionDao;
     }
 
-    private static List<UrlOnceData> readHbase(String path){
+    private static List<UrlOnceData> readHbase(String path) throws IOException {
         List<UrlOnceData>  urlsHbaseDao= new ArrayList<UrlOnceData>();
         List<String> paths = Tool.listFiles(path);
         if(paths.isEmpty() || paths==null){
             return urlsHbaseDao;
         }else {
-            //todo
             //读取最后一次的时间解析
+            for(String filepath:paths){
+                ObjectMapper mapper = new ObjectMapper();
+                UrlOnceData tmp = mapper.readValue(new File(filepath), UrlOnceData.class);
+                urlsHbaseDao.add(tmp);
+            }
         }
         return urlsHbaseDao;
     }
@@ -52,6 +65,9 @@ public class Integerity {
         if(urlsHbaseDao.isEmpty() || urlsHbaseDao==null){
             return urlsCollectionDao;
         }else {
+            for(UrlOnceData urlOnceData: urlsHbaseDao){
+                urlsUnionDao.add(urlOnceData);
+            }
             //todo
             // 将两者取并集
         }

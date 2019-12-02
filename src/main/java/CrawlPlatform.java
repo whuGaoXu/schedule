@@ -25,7 +25,9 @@ public class CrawlPlatform {
         Map<String, String> urlAndhtmls = new HashMap<String, String>();
         for(UrlOnceData urlOnceData : waitCrawlUrls){
             String url = urlOnceData.getUrl();
+            System.out.println(url);
             String html = getPageSource(url);
+            System.out.println(html);
             urlAndhtmls.put(url, html);
         }
         releaseDriver();
@@ -49,11 +51,11 @@ public class CrawlPlatform {
 //        System.out.println(html);
 //        webDriver.close();
 //        webDriver.quit();
-        CrawlPlatform crawlPlatform = new CrawlPlatform();
-        crawlPlatform.initDriver();
-        String html = crawlPlatform.getPageSource("http://www.baidu.com");
+//        CrawlPlatform crawlPlatform = new CrawlPlatform();
+        CrawlPlatform.initDriver();
+        String html = CrawlPlatform.getPageSource("http://sports.sohu.com");
         System.out.println(html);
-        crawlPlatform.releaseDriver();
+        CrawlPlatform.releaseDriver();
     }
 }
 

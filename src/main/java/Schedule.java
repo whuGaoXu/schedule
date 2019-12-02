@@ -71,11 +71,11 @@ public class Schedule {
             oldUrlsSize = oldUrlsCrawlAbility;
         }
 
-        for(int i=0; i<newUrlsSize; ++i){
+        for(int i=0; i<newUrlsSize && i<newUrls.size(); ++i){
             waitCrawlUrls.add(newUrls.get(i));
         }
 
-        for(int i=0; i<oldUrlsSize; ++i){
+        for(int i=0; i<oldUrlsSize && i<oldUrls.size(); ++i){
             waitCrawlUrls.add(oldUrls.get(i));
         }
 

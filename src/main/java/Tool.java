@@ -52,6 +52,20 @@ public class Tool {
         return calendar.getTimeInMillis();
     }
 
+    public static String generateFilePath(String path, String name){
+        String filepath = path + name.replace("http://", "") + ".txt";
+        File file = new File(filepath);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return filepath;
+        } else {
+            return filepath;
+        }
+    }
     public static void main(String[] args) throws IOException {
 
         List<String> filePaths = Tool.listFiles("E:\\programmingAbility\\Java\\urls");
