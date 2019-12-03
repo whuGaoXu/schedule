@@ -1,6 +1,4 @@
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,7 +24,42 @@ public class WriteHbase {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            // 写日志文件，追加写
+            writeLog(urlOnceData);
         }
+    }
+
+
+    private static void writeLog(UrlOnceData urlOnceData){
+        String content = "id: " + urlOnceData.getId() + "\r\n"
+                            + "url: " + urlOnceData.getUrl() + "\r\n"
+                            + "crawl time: " + Tool.timeStamp2Date(urlOnceData.getFetchTime()) + "\r\n"
+                            + "refresh cycle: " + urlOnceData.getRefreshCycle()/(86400000*1.0) + "  day\r\n"
+                            + urlOnceData.getHtml() + "\r\n"
+                            + "\r\n";
+        String filePath = Tool.generateFilePath("E:\\programmingAbility\\Java\\urls\\log\\", urlOnceData.getUrl());
+        FileOutputStream fos = null;
+        try {
+            //true不覆盖已有内容
+            fos = new FileOutputStream(filePath, true);
+            //写入
+            fos.write(content.getBytes());
+            // 写入一个换行
+            fos.write("\r\n".getBytes());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            if(fos != null){
+                try {
+                    fos.flush();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
 
