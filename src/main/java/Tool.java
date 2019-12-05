@@ -1,8 +1,10 @@
 import org.junit.Test;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -53,7 +55,9 @@ public class Tool {
     }
 
     public static String generateFilePath(String path, String name){
-        String filepath = path + name.replace("http://", "") + ".txt";
+        name = name.replace("http://", "");
+        name = name.replace(".", "_");
+        String filepath = path + name + ".txt";
         File file = new File(filepath);
         if (!file.exists()) {
             try {
@@ -66,6 +70,12 @@ public class Tool {
             return filepath;
         }
     }
+
+    public static String timeStamp2Date(long timeStamp){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");;
+        return sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));
+    }
+
     public static void main(String[] args) throws IOException {
 
         List<String> filePaths = Tool.listFiles("E:\\programmingAbility\\Java\\urls");

@@ -16,7 +16,7 @@ import java.util.Queue;
 public class Schedule {
 
 
-    private static int crawlAbility = 1000; // 每天的爬取能力，也就是24h的能够爬取多少数据
+    private static int crawlAbility = 4; // 每天的爬取能力，也就是24h的能够爬取多少数据
     private static double newProportion = 0.5; // 默认新的占比，
     private static double oldProportion = 0.5;// 旧的占比
 
@@ -40,8 +40,11 @@ public class Schedule {
     private static List<UrlOnceData> getOldUrls(List<UrlOnceData> urlsOnceData){
         List<UrlOnceData> oldUrls = new ArrayList<UrlOnceData>();
         for(UrlOnceData tmp : urlsOnceData){
-            if(tmp.getId()!=0){
-                oldUrls.add(tmp);
+            if(tmp.getId()!=0){// 旧的url
+                boolean timeToCrawl = (Tool.getCurTime()-tmp.getFetchTime()) >= tmp.getRefreshCycle(); // 时间到了吗？
+                if(timeToCrawl){
+                    oldUrls.add(tmp);
+                }
             }
         }
         Collections.sort(oldUrls);
@@ -79,12 +82,17 @@ public class Schedule {
             waitCrawlUrls.add(oldUrls.get(i));
         }
 
+        //测试
+        System.out.println("schedule : " + waitCrawlUrls.size());
+        for(UrlOnceData urlOnceData :waitCrawlUrls){
+            System.out.println(urlOnceData.getUrl()+ " " +urlOnceData.getFetchTime());
+        }
         return waitCrawlUrls;
     }
 
 
     public static List<UrlOnceData> select(List<UrlOnceData> urlsTotal){
-        init(1000, 0.5);
+        init(4, 0.5);
         List<UrlOnceData> oldUrls = getOldUrls(urlsTotal);
         List<UrlOnceData> newUrls = getNewUrls(urlsTotal);
         List<UrlOnceData> waitCrawlUrls = getWaitCrawlUrls(oldUrls, newUrls);

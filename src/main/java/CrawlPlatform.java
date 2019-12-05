@@ -23,11 +23,11 @@ public class CrawlPlatform {
     public static Map<String, String> getAllhtmls(List<UrlOnceData> waitCrawlUrls) throws InterruptedException {
         initDriver();
         Map<String, String> urlAndhtmls = new HashMap<String, String>();
+        int index = 0;
         for(UrlOnceData urlOnceData : waitCrawlUrls){
             String url = urlOnceData.getUrl();
-            System.out.println(url);
+            System.out.println("crawl " + ++index + " : " + url);
             String html = getPageSource(url);
-            System.out.println(html);
             urlAndhtmls.put(url, html);
         }
         releaseDriver();

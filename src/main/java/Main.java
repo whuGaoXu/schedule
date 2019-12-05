@@ -11,7 +11,7 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        List<UrlOnceData> urlsTotal = Integerity.union();
+        List<UrlOnceData> urlsTotal = Integrity.union();
         List<UrlOnceData> waitCrawlUrls = Schedule.select(urlsTotal);
         Map<String, String> urlAndHtmls = CrawlPlatform.getAllhtmls(waitCrawlUrls);
         UpdateCycle.updateCycle(urlAndHtmls, waitCrawlUrls); // 此步骤会将信息整合到waitCrawlUrls

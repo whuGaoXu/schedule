@@ -15,7 +15,6 @@ public class UpdateCycle {
     private static final long ONE_HOUR = 3600000;
     public static void updateCycle(Map<String, String> urlAndhtmls, List<UrlOnceData> crawledUrls) throws UnsupportedEncodingException {
         for(UrlOnceData urlOnceData : crawledUrls){
-            urlOnceData.setFetchTime(Tool.getCurTime());
             int id = urlOnceData.getId();
             String url = urlOnceData.getUrl();
             String newHtml = urlAndhtmls.get(url);
@@ -23,10 +22,16 @@ public class UpdateCycle {
                 urlOnceData.setId(1);
             }else{
                 double similar = CosineSimilar.getSimilarity(newHtml, urlOnceData.getHtml());
+                System.out.println(url + " 　similar : " + similar);
                 long newCycle = getNewCycle(similar, urlOnceData.getRefreshCycle());
+                if(newCycle != urlOnceData.getRefreshCycle()){
+                    System.out.println("update cycle" + urlOnceData.getUrl() + " " + urlOnceData.getRefreshCycle() + " -> " + newCycle);
+                }
                 urlOnceData.setId(++id);
                 urlOnceData.setRefreshCycle(newCycle);
             }
+
+            urlOnceData.setFetchTime(Tool.getCurTime());
             urlOnceData.setHtml(newHtml);
         }
 

@@ -2,8 +2,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 
@@ -12,7 +10,7 @@ import java.util.List;
  *
  * */
 
-public class Integerity {
+public class Integrity {
 
     private static final long ONEDAY = 86400000;
     private static final String urlsCollectionPath = "E:\\programmingAbility\\Java\\urls\\urlsCollection.txt";
@@ -73,17 +71,20 @@ public class Integerity {
             boolean exist = false;
             for(UrlOnceData urlOnceDataHbase : urlsHbaseDao){
                 if(urlOnceDataCollection.getUrl().equals(urlOnceDataHbase.getUrl())){
-                    System.out.println(urlOnceDataCollection.getUrl());
                     exist = true;
                     break;
                 }
             }
             if(!exist){
-                System.out.println("test");
                 urlsUnionDao.add(urlOnceDataCollection);
             }
         }
 
+        // 测试 整合的url
+        System.out.println("Integrity : " + urlsUnionDao.size());
+        for(UrlOnceData test:urlsUnionDao){
+            System.out.println(test.getUrl());
+        }
         return urlsUnionDao;
 
     }
@@ -97,8 +98,8 @@ public class Integerity {
 //        calendar.add(Calendar.DAY_OF_MONTH,1);
 //        long tomorrow = calendar.getTimeInMillis();
 //        System.out.println(tomorrow-timeInMillis);
-        Integerity integerity = new Integerity();
-        List<UrlOnceData> urlsCollection = integerity.union();
+        Integrity integrity = new Integrity();
+        List<UrlOnceData> urlsCollection = integrity.union();
         for(UrlOnceData urlOnceData:urlsCollection){
             System.out.println(urlOnceData.getId());
             System.out.println(urlOnceData.getUrl());
