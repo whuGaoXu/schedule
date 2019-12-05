@@ -92,7 +92,7 @@ public class Schedule {
 
 
     public static List<UrlOnceData> select(List<UrlOnceData> urlsTotal){
-        init(4, 0.5);
+        init(1000, 0.5);
         List<UrlOnceData> oldUrls = getOldUrls(urlsTotal);
         List<UrlOnceData> newUrls = getNewUrls(urlsTotal);
         List<UrlOnceData> waitCrawlUrls = getWaitCrawlUrls(oldUrls, newUrls);

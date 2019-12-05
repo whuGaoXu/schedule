@@ -1,7 +1,9 @@
 
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,7 @@ public class CrawlPlatform {
             String url = urlOnceData.getUrl();
             System.out.println("crawl " + ++index + " : " + url);
             String html = getPageSource(url);
+            Thread.sleep(5000);
             urlAndhtmls.put(url, html);
         }
         releaseDriver();
@@ -53,7 +56,8 @@ public class CrawlPlatform {
 //        webDriver.quit();
 //        CrawlPlatform crawlPlatform = new CrawlPlatform();
         CrawlPlatform.initDriver();
-        String html = CrawlPlatform.getPageSource("http://sports.sohu.com");
+        String html = getPageSource("http://m.qudong.com/");
+        Thread.sleep(5000);
         System.out.println(html);
         CrawlPlatform.releaseDriver();
     }

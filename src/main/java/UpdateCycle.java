@@ -6,6 +6,7 @@ import java.util.Map;
 /**
  *
  * 根据相似度以及上一次的更新周期，来确定下一次的更新周期
+ * 遗留bug问题：有可能距离上一次抓取的时间过长，导致即使更新，还是小于距离上一次的时间
  * */
 
 public class UpdateCycle {
