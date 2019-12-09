@@ -19,6 +19,7 @@ public class CrawlPlatform {
     private static String getPageSource(String url) throws InterruptedException {
 
         driver.get(url);
+        Thread.sleep(3000);
         return driver.getPageSource();
     }
 
@@ -30,7 +31,6 @@ public class CrawlPlatform {
             String url = urlOnceData.getUrl();
             System.out.println("crawl " + ++index + " : " + url);
             String html = getPageSource(url);
-            Thread.sleep(5000);
             urlAndhtmls.put(url, html);
         }
         releaseDriver();
